@@ -1,4 +1,5 @@
 import sqlite3
+import time
 
 
 class HealthStatistics:
@@ -9,7 +10,7 @@ class HealthStatistics:
 
     def create_table(self):
         try:
-            self.conn.execute('CREATE TABLE IF NOT EXISTS %s (server VARCHAR(120), method VARVHAR(60), consumed INT, is_up INT)' % self.table)
+            self.conn.execute('CREATE TABLE IF NOT EXISTS %s (server VARCHAR(120), method VARVHAR(60), consumed INT, is_up INT, timestamp INT)' % self.table)
         except Exception as e:
             print(e)
             self.conn.rollback()
@@ -18,7 +19,7 @@ class HealthStatistics:
 
     def insert_health(self, server, method, consumed, is_up):
         try:
-            self.conn.execute('INSERT INTO %s (server, method, consumed, is_up) VALUES (?, ?, ?, ?)' % self.table, (server, method, consumed, is_up))
+            self.conn.execute('INSERT INTO %s (server, method, consumed, is_up, timestamp) VALUES (?, ?, ?, ?, ?)' % self.table, (server, method, consumed, is_up, int(time())))
         except Exception as e:
             print(e)
             self.conn.rollback()
