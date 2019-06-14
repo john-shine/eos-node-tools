@@ -1,16 +1,19 @@
 import ast
 import json
+import asyncio
 import requests
 import traceback
+import functools
 
 
 class Client:
 
     def __init__(self, rpc_host):
         self.rpc_host = rpc_host
+        self.loop = asyncio.get_event_loop()
 
     async def post(self, url, data=None):
-        r = requests.post(self.rpc_host + url, data=json.dumps(data), timeout=60)
+        r = await self.loop.run_in_executor(None, functools.partial(requests.post, self.rpc_host + url, data=json.dumps(data), timeout=60))
         try:
             return json.loads(r.text)
         except json.decoder.JSONDecodeError:

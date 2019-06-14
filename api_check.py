@@ -33,8 +33,6 @@ class APICheck:
                 else:
                     print(fname + ' check result: False')
                     health_statistics.insert_health(server, fname, consumed, 0)
-                
-                print('time consumed: ' + str(consumed))
 
     async def check_get_account(self):
         account = await self.client.get_account('fepxecwzm41t')

@@ -12,6 +12,18 @@ class HeightCheck:
     def __init__(self):
         pass
 
+    async def task(self, server):
+        print('server: %s' % server)
+        client = Client(server)
+        info = None
+        try:
+            info = await client.get_info()
+        except Exception as e:
+            print(e)
+
+        height = info.get('head_block_num', 0) if info else 0
+        return server, height
+
     async def run(self):
         db_conn = sqlite3.connect(db_name)
         db_conn.set_trace_callback(print)
@@ -20,17 +32,16 @@ class HeightCheck:
         insert_id = hs.get_last_id() + 1
         timestamp = time()
 
+        tasks = []
         for server in servers:
-            print('server: %s' % server)
-            client = Client(server)
-            try:
-                info = await client.get_info()
-            except Exception as e:
-                print(e)
-                continue
+            task = self.task(server)
+            tasks.append(task)
 
-            height = info.get('head_block_num', 0) if info else 0
+        responses = await asyncio.gather(*tasks)
+        for response in responses:
+            server, height = response
             hs.insert_or_update_height(insert_id, server, height, timestamp)
+            print(response)
 
         print('cycle: %s height check finished.' % insert_id)
 
