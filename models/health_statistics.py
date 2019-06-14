@@ -27,6 +27,13 @@ class HealthStatistics:
 
 
 if __name__ == '__main__':
+
+    import os
+    import sys
+
+    sys.path.pop(sys.path.index(os.path.dirname(os.path.realpath(__file__))))
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
     from settings.database import db_name
     db_conn = sqlite3.connect(db_name)
     db_conn.set_trace_callback(print)

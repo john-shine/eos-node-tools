@@ -26,7 +26,7 @@ class HeightStatistics:
 
         self.conn.commit()
 
-        return int(row[0])
+        return int(row[0] if row[0] else 0)
 
     def insert_or_update_height(self, iid, server, height, timestamp):
         try:
