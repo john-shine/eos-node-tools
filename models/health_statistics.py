@@ -1,5 +1,5 @@
 import sqlite3
-import time
+from time import time
 
 
 class HealthStatistics:
