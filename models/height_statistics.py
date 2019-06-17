@@ -1,5 +1,6 @@
 
 class HeightStatistics:
+    # select server, sum(height) / count(id) from height_statistics group by server;
 
     def __init__(self, database):
         self.conn = database

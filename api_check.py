@@ -89,6 +89,21 @@ class APICheck:
 
         return True
 
+    async def check_get_actions(self):
+        try:
+            actions = await self.client.get_actions('fepxecwzm41t')
+            action = actions['actions'][0]
+            assert 'global_action_seq' in action
+            assert 'account_action_seq' in action
+            assert 'block_num' in action
+            assert 'block_time' in action
+            assert 'action_trace' in action
+        except Exception as e:
+            return False
+
+        return True
+
+
 
 if __name__ == '__main__':
 

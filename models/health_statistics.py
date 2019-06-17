@@ -3,6 +3,7 @@ from time import time
 
 
 class HealthStatistics:
+    # select server, method, sc / count, si * 100 / count from  (select server, method, sum(consumed) AS sc , sum(is_up) AS si, count(server) AS count from health_statistics group by server, method);
 
     def __init__(self, database):
         self.conn = database
