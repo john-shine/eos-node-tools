@@ -41,7 +41,6 @@ class HeightCheck:
         for response in responses:
             server, height = response
             hs.insert_or_update_height(insert_id, server, height, timestamp)
-            print(response)
 
         print('cycle: %s height check finished.' % insert_id)
 
